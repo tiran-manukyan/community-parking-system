@@ -1,0 +1,7 @@
+databaseChangeLog:
+  - includeAll:
+      path: liquibase/changelog/
+      context: schema
+  - includeAll:
+      path: liquibase/data/
+      context: schema

@@ -1,0 +1,40 @@
+server:
+  port: 8081
+  servlet:
+    context-path: /api
+spring:
+  application:
+    name: community-parking-system
+  datasource:
+    url: jdbc:postgresql://localhost:5432/parking_db
+    username: postgres
+    password: postgres
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+  liquibase:
+    enabled: true
+    change-log: classpath:liquibase/changelog-root.yml
+    contexts: schema
+logging:
+  level:
+    org.springframework: DEBUG
+auth:
+  jwt:
+    secret-key: ybzK/2U0IdEBTc+JGJhrI3LQAYkVNR3K5qjIoYG6fwg=
+    expire-duration: PT24H
+  third-party-system:
+    gate:
+      secret-key: XkH8jA92vQ7n3OpT4Z5tLw8Rj9C1Pz2UvJ6K0mG3Nxw=
+      api-key-header: GATE-API-KEY
+parking:
+  cost:
+    per-hour: 500
+    pre-booking-per-hour: 300
+    minimal: 300
+booking:
+  minimum-duration: PT60M

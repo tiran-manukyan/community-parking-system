@@ -1,0 +1,21 @@
+services:
+  database:
+    image: 'postgres:17.4'
+    environment:
+      - 'POSTGRES_DB=parking_db'
+      - 'POSTGRES_PASSWORD=postgres'
+      - 'POSTGRES_USER=postgres'
+    ports:
+      - '5432:5432'
+  app:
+    build:
+      context: .
+    container_name: community-parking-system
+    ports:
+      - "8081:8081"
+    depends_on:
+      - database
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://database:5432/parking_db
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=postgres

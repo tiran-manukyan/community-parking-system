@@ -1,0 +1,108 @@
+### Register a new user
+POST http://localhost:8081/api/user/register
+Content-Type: application/json
+
+{
+  "email": "alice@example.com",
+  "password": "your_pass"
+}
+
+###
+
+# Authenticate the user and store the token for future requests
+POST http://localhost:8081/api/user/login
+Content-Type: application/json
+
+{
+  "email": "alice@example.com",
+  "password": "your_pass"
+}
+
+> {%
+    client.global.set("token", response.body.token);
+%}
+
+###
+
+# Fetch buildings accessible to the current user
+GET http://localhost:8081/api/buildings?days=1
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+###
+
+# Get available time slots for a specific building
+GET http://localhost:8081/api/availability/building/5
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+###
+
+# Book a parking spot at a specific building
+POST http://localhost:8081/api/bookings
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "buildingId": 5,
+  "startTime": "09.04.2025 16:00",
+  "endTime": "09.04.2025 18:30"
+}
+
+###
+
+# Update the booking
+PUT http://localhost:8081/api/bookings/update
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "bookingId": 4,
+  "startTime": "09.04.2025 16:00",
+  "endTime": "09.04.2025 19:30"
+}
+
+###
+
+# Cancel the booking
+PUT http://localhost:8081/api/bookings/5/cancel
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+###
+
+# Retrieve all active and past bookings for the current user
+GET http://localhost:8081/api/bookings
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+###
+
+# Retrieve booking by id
+GET http://localhost:8081/api/bookings/1
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+###
+
+# Start a parking session (simulate parking a car)
+POST http://localhost:8081/api/parking/park
+Content-Type: application/json
+GATE-API-KEY: XkH8jA92vQ7n3OpT4Z5tLw8Rj9C1Pz2UvJ6K0mG3Nxw=
+
+{
+  "buildingId": 5,
+  "userId": 1,
+  "plateNumber": "ABC123"
+}
+
+###
+
+# End a parking session (release the car)
+POST http://localhost:8081/api/parking/release
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "sessionId": 3
+}
